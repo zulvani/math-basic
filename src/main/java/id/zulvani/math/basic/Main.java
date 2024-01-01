@@ -8,23 +8,23 @@ public class Main {
         int rows, columns, min, max;
         Operator op = null;
 
-        Scanner input = new Scanner(System.in);  // Create a Scanner object
+        Scanner input = new Scanner(System.in);
         System.out.println("How many rows?");
         rows = input.nextInt();
 
-        input = new Scanner(System.in);  // Create a Scanner object
+        input = new Scanner(System.in);
         System.out.println("How many columns?");
         columns = input.nextInt();
 
-        input = new Scanner(System.in);  // Create a Scanner object
+        input = new Scanner(System.in);
         System.out.println("Minimum question value?");
         min = input.nextInt();
 
-        input = new Scanner(System.in);  // Create a Scanner object
+        input = new Scanner(System.in);
         System.out.println("Max question value?");
         max = input.nextInt();
 
-        input = new Scanner(System.in);  // Create a Scanner object
+        input = new Scanner(System.in);
         System.out.println("Operator? (+,-,*)");
         String tempOp = input.nextLine().trim();
 
@@ -54,7 +54,7 @@ public class Main {
         String inputChoice;
         Point qChoice, aChoice; // point for question choice and answer choice
         do {
-            input = new Scanner(System.in);  // Create a Scanner object
+            input = new Scanner(System.in);
             System.out.println("Your choice (use comma separator), example: 0,1,2,0");
             inputChoice = input.nextLine();
 
@@ -69,7 +69,7 @@ public class Main {
                 System.out.println("You are wrong");
             }
 
-            input = new Scanner(System.in);  // Create a Scanner object
+            input = new Scanner(System.in); 
             System.out.println("Play again? Y = Yes, N = No");
             play = input.nextLine();
         } while (play.equalsIgnoreCase("y"));
