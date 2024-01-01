@@ -85,6 +85,7 @@ public class Main {
      * @param   c           number of column
      * @param   max         maximum generated question value
      * @param   min         minimum generated question value
+     * @param   op          arithmetic operator, only support +,- and *
      * @return  Data[][]    2d array of rows x column Data object
      */
     public Data[][] generate(int r, int c, int min, int max, Operator op) {
