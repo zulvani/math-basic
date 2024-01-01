@@ -2,18 +2,14 @@ package org.example;
 
 import java.util.UUID;
 
-public class Data {
+public class Data implements Cloneable {
     private int a;
     private int b;
     private int r;
 
-    private String id;
-
-    public Data() {
-    }
+    private Point siblingPosition;
 
     public Data(int a, int b, int r) {
-        this.id = UUID.randomUUID().toString();
         this.a = a;
         this.b = b;
         this.r = r;
@@ -41,5 +37,22 @@ public class Data {
 
     public void setR(int r) {
         this.r = r;
+    }
+
+    public Point getSiblingPosition() {
+        return siblingPosition;
+    }
+
+    public void setSiblingPosition(Point siblingPosition) {
+        this.siblingPosition = siblingPosition;
+    }
+
+    @Override
+    public Data clone()  {
+        try {
+            return (Data) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return new Data(this.a, this.b, this.r);
+        }
     }
 }
