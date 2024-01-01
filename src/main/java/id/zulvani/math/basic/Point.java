@@ -25,6 +25,6 @@ public class Point {
     }
 
     public boolean isEqual(Point p) {
-        return (p.getRow() == this.getColumn() && p.getColumn() == this.getColumn());
+        return (p.getRow() == this.getRow() && p.getColumn() == this.getColumn());
     }
 }

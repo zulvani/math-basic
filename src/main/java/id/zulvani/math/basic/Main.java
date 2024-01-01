@@ -38,7 +38,7 @@ public class Main {
             System.out.println();
         }
 
-        int play = 1;
+        String play = "y";
         String inputChoice;
         Point qChoice, aChoice; // point for question choice and answer choice
         do {
@@ -58,9 +58,9 @@ public class Main {
             }
 
             input = new Scanner(System.in);  // Create a Scanner object
-            System.out.println("Play again? 1 = Yes, 0 = No");
-            play = input.nextInt();
-        } while (play == 1);
+            System.out.println("Play again? Y = Yes, N = No");
+            play = input.nextLine();
+        } while (play.equalsIgnoreCase("y"));
     }
 
     public boolean answer(Point q, Point a, Data[][] data) {
