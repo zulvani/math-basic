@@ -1,4 +1,4 @@
-package org.example;
+package id.zulvani.math.basic;
 public class Point {
     private int row;
     private int column;
@@ -22,5 +22,9 @@ public class Point {
 
     public void setColumn(int column) {
         this.column = column;
+    }
+
+    public boolean isEqual(Point p) {
+        return (p.getRow() == this.getColumn() && p.getColumn() == this.getColumn());
     }
 }

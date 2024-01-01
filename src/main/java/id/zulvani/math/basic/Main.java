@@ -1,22 +1,71 @@
-package org.example;
+package id.zulvani.math.basic;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Data[][] data = new Main().generate(4, 4,  9,50);
+        int rows, columns, min, max;
+
+        Scanner input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("How many rows?");
+        rows = input.nextInt();
+
+        input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("How many columns?");
+        columns = input.nextInt();
+
+        input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Minimum question value?");
+        min = input.nextInt();
+
+        input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Max question value?");
+        max = input.nextInt();
+
+        Main m = new Main();
+        Data[][] data = m.generate(rows,columns, min,max);
 
         for (Data[] datum : data) {
             for (Data value : datum) {
                 System.out.printf("%d+%d=%d (%d:%d); ",
                         value.getA(),
                         value.getB(),
-                        value.getR(),
+                        value.getZ(),
                         value.getSiblingPosition().getRow(),
                         value.getSiblingPosition().getColumn());
             }
             System.out.println();
         }
+
+        int play = 1;
+        String inputChoice;
+        Point qChoice, aChoice; // point for question choice and answer choice
+        do {
+            input = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("Your choice (use comma separator), example: 0,1,2,0");
+            inputChoice = input.nextLine();
+
+            String[] c = inputChoice.trim().split(",");
+            if (c.length < 4) break;
+            qChoice = new Point(Integer.parseInt(c[0]), Integer.parseInt(c[1]));
+            aChoice = new Point(Integer.parseInt(c[2]), Integer.parseInt(c[3]));
+
+            if (m.answer(qChoice, aChoice, data)){
+                System.out.println("You are correct");
+            } else{
+                System.out.println("You are wrong");
+            }
+
+            input = new Scanner(System.in);  // Create a Scanner object
+            System.out.println("Play again? 1 = Yes, 0 = No");
+            play = input.nextInt();
+        } while (play == 1);
+    }
+
+    public boolean answer(Point q, Point a, Data[][] data) {
+        Data question = data[q.getRow()][q.getColumn()];
+        return (question.getSiblingPosition().isEqual(a));
     }
 
     /**

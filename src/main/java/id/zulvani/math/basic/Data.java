@@ -1,18 +1,16 @@
-package org.example;
-
-import java.util.UUID;
+package id.zulvani.math.basic;
 
 public class Data implements Cloneable {
     private int a;
     private int b;
-    private int r;
+    private int z;
 
     private Point siblingPosition;
 
-    public Data(int a, int b, int r) {
+    public Data(int a, int b, int z) {
         this.a = a;
         this.b = b;
-        this.r = r;
+        this.z = z;
     }
 
     public int getA() {
@@ -31,12 +29,12 @@ public class Data implements Cloneable {
         this.b = b;
     }
 
-    public int getR() {
-        return r;
+    public int getZ() {
+        return z;
     }
 
-    public void setR(int r) {
-        this.r = r;
+    public void setZ(int z) {
+        this.z = z;
     }
 
     public Point getSiblingPosition() {
@@ -52,7 +50,7 @@ public class Data implements Cloneable {
         try {
             return (Data) super.clone();
         } catch (CloneNotSupportedException e) {
-            return new Data(this.a, this.b, this.r);
+            return new Data(this.a, this.b, this.z);
         }
     }
 }
