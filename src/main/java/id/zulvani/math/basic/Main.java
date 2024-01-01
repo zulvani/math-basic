@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         int rows, columns, min, max;
+        Operator op = null;
 
         Scanner input = new Scanner(System.in);  // Create a Scanner object
         System.out.println("How many rows?");
@@ -23,13 +24,24 @@ public class Main {
         System.out.println("Max question value?");
         max = input.nextInt();
 
+        input = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Operator? (+,-,*)");
+        String tempOp = input.nextLine().trim();
+
+        op = switch (tempOp) {
+            case "-" -> Operator.SUB;
+            case "*" -> Operator.MUL;
+            default -> Operator.ADD;
+        };
+
         Main m = new Main();
-        Data[][] data = m.generate(rows,columns, min,max);
+        Data[][] data = m.generate(rows,columns, min,max, op);
 
         for (Data[] datum : data) {
             for (Data value : datum) {
-                System.out.printf("%d+%d=%d (%d:%d); ",
+                System.out.printf("%d%s%d=%d (%d:%d); ",
                         value.getA(),
+                        op.getSign(),
                         value.getB(),
                         value.getZ(),
                         value.getSiblingPosition().getRow(),
@@ -75,7 +87,7 @@ public class Main {
      * @param   min         minimum generated question value
      * @return  Data[][]    2d array of rows x column Data object
      */
-    public Data[][] generate(int r, int c, int min, int max) {
+    public Data[][] generate(int r, int c, int min, int max, Operator op) {
         int total = r * c; // total cell
         if (total%2 != 0){ // total cell should be even, we can't generate total odd cell, example: 7x7 =49
             return null;
@@ -95,7 +107,12 @@ public class Main {
             do  {
                 a = random.nextInt(max + 1 - min) + min;
                 b = random.nextInt(max + 1 - min) + min;
-                z = a + b; // change this part if you want to use another arithmetic operation
+                z = switch (op) {
+                    case ADD -> a + b;
+                    case SUB -> a - b;
+                    case MUL -> a * b;
+                };
+
                 exists = false;
                 for (int i = 0; i < n; i++) {
                     if (answer[i] == z) {
