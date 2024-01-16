@@ -1,4 +1,4 @@
-package id.zulvani.math.basic;
+package id.zulvani.math.basic.arithmetic;
 
 public enum Operator {
     ADD("+"), SUB("-"), MUL("*");
