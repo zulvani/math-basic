@@ -1,10 +1,14 @@
-package id.zulvani.math.basic.ir.model;
+package id.zulvani.math.basic.informationretrieval.model;
 
 public class Matrix {
     private String[] xLabel;
     private String[] yLabel;
 
+    // term frequency in the document (log10 n) where n is the term frequency in a document
     private double tfScore[];
+
+    // term
+    private double collectionFrequency[];
     private double[][] matrix;
 
     public String[] getxLabel() {
@@ -37,5 +41,13 @@ public class Matrix {
 
     public void setTfScore(double[] tfScore) {
         this.tfScore = tfScore;
+    }
+
+    public double[] getCollectionFrequency() {
+        return collectionFrequency;
+    }
+
+    public void setCollectionFrequency(double[] collectionFrequency) {
+        this.collectionFrequency = collectionFrequency;
     }
 }

@@ -1,6 +1,6 @@
-package id.zulvani.math.basic.ir;
+package id.zulvani.math.basic.informationretrieval;
 
-import id.zulvani.math.basic.ir.model.Document;
+import id.zulvani.math.basic.informationretrieval.model.Document;
 
 public class Main {
 
@@ -11,7 +11,7 @@ public class Main {
         documents[1] = new Document("2", "Bulu Tangkis menjadi andalan Indonesia berburu medali di Olimpiade Tokyo 2020. Cabang olahraga atau cabor ini digelar pada 24 Juli hingga 2 Agustus 2021. Tidak tanggung-tanggung, dari 28 atlet Indonesia yang bertarung di Negeri Sakura, 11 di antaranya adalah atlet bulu tangkis. Mereka mencoba mempertahankan tradisi medali emas di Olimpiade. Tercatat Indonesia telah menggondol 7 medali emas sejak cabor bulu tangkis dipertandingkan pada Olimpiade Barcelona 1992. Bermula dari tunggal putri Susy Susanti dan tunggal putra Alan Budikusuma. Laga bulu tangkis Indonesia di Olimpiade Tokyo 2020 disiarkan Emtek Group sebagai official broadcaster. Simak jadwalnya dalam Infografis berikut ini:");
         documents[2] = new Document("3", "Covid-19 tidak mengenal usia dan status. Siapa pun bisa tertular. Jadi jangan bebal, sebab tidak ada yang kebal dari virus corona. Bahkan tidak ada jaminan orang yang sudah terinfeksi Covid-19, tidak akan terinfeksi lagi. Mereka bisa kembali terinfeksi Covid-19. Kesadaran melindungi diri sangat penting. Apalagi dengan melindungi diri, juga sekaligus melindungi keluarga, orang terdekat, dan orang sekitar. Ini menjadi tanggung jawab bersama. Disiplin protokol kesehatan menjadi cara yang paling efektif melindungi diri. Apa saja? Simak Infografis berikut ini: ** #IngatPesanIbu Pakai Masker, Cuci Tangan Pakai Sabun, Jaga Jarak dan Hindari Kerumunan. Selalu Jaga Kesehatan, Jangan Sampai Tertular dan Jaga Keluarga Kita.");
 
-        String query = "olahraga di indonesia";
+        String query = "olahraga indonesia";
         MatrixProcessor im = new MatrixProcessor(documents, query);
         im.toIncidentMatrix();
         System.out.println("----");
@@ -19,10 +19,11 @@ public class Main {
         System.out.println("----");
         im.toCountMatrix(true);
         System.out.println("----");
-        int agus = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "agus");
-        int sekali = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "sekali");
-        System.out.println(agus);
-        System.out.println(sekali);
+
+//        int agus = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "agus");
+//        int sekali = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "sekali");
+//        System.out.println(agus);
+//        System.out.println(sekali);
 
     }
 

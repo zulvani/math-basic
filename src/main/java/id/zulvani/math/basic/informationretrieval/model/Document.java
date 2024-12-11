@@ -1,4 +1,4 @@
-package id.zulvani.math.basic.ir.model;
+package id.zulvani.math.basic.informationretrieval.model;
 
 public class Document {
     private String docId;
