@@ -38,6 +38,8 @@ public class InformationRetrievalMain {
                 "vaksin sebagai politik dalam dunia olahraga"
         };
 
+        // RUN JACCARD
+        // ----------------
 //        for (String query : queries) {
 //            MatrixProcessor im = new MatrixProcessor(documents, query);
 //            Instant startTime = Instant.now();
@@ -57,6 +59,8 @@ public class InformationRetrievalMain {
 //            System.out.println("----");
 //        }
 
+        // RUN TERM FREQUENCY WITHOUT LOG10
+        // ----------------
 //        for (String query : queries) {
 //            MatrixProcessor im = new MatrixProcessor(documents, query);
 //            Instant startTime = Instant.now();
@@ -75,6 +79,8 @@ public class InformationRetrievalMain {
 //            System.out.println("----");
 //        }
 
+        // RUN TERM FREQUENCY WITH LOG10
+        // ----------------
 //        for (String query : queries) {
 //            MatrixProcessor im = new MatrixProcessor(documents, query);
 //            Instant startTime = Instant.now();
@@ -93,6 +99,8 @@ public class InformationRetrievalMain {
 //            System.out.println("----");
 //        }
 
+        // RUN DOCUMENT FREQUENCY (IDF) WITHOUT LOG10
+        // ----------------
         for (String query : queries) {
             MatrixProcessor im = new MatrixProcessor(documents, query);
             Instant startTime = Instant.now();
