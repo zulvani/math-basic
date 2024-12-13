@@ -9,7 +9,13 @@ public class Matrix {
 
     // term
     private double collectionFrequency[];
+    // df(t) is the document frequency, the number of documents that t occurs in
+    private int documentFrequency[];
+
+    private double idfWeight[];
     private double[][] matrix;
+
+    private double[] jarccardValue;
 
     public String[] getxLabel() {
         return xLabel;
@@ -49,5 +55,29 @@ public class Matrix {
 
     public void setCollectionFrequency(double[] collectionFrequency) {
         this.collectionFrequency = collectionFrequency;
+    }
+
+    public int[] getDocumentFrequency() {
+        return documentFrequency;
+    }
+
+    public void setDocumentFrequency(int[] documentFrequency) {
+        this.documentFrequency = documentFrequency;
+    }
+
+    public double[] getIdfWeight() {
+        return idfWeight;
+    }
+
+    public void setIdfWeight(double[] idfWeight) {
+        this.idfWeight = idfWeight;
+    }
+
+    public double[] getJarccardValue() {
+        return jarccardValue;
+    }
+
+    public void setJarccardValue(double[] jarccardValue) {
+        this.jarccardValue = jarccardValue;
     }
 }

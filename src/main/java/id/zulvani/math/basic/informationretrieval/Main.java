@@ -1,30 +1,71 @@
 package id.zulvani.math.basic.informationretrieval;
 
+import id.zulvani.math.basic.file.CSVReader;
 import id.zulvani.math.basic.informationretrieval.model.Document;
+
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.time.Duration;
 
 public class Main {
 
     public Main(){
 
-        Document[] documents = new Document[3];
-        documents[0] = new Document("1", "Pemerintah melalui Menteri Hukum dan Hak Asasi Manusia atau Menkumham Yasonna H Laoly memperluas pembatasan terhadap warga negara asing alias WNA yang boleh masuk wilayah Indonesia. Terutama, melarang pekerja asing. Kebijakan ini termaktub dalam Peraturan Menteri Hukum dan HAM atau Permenkumham Nomor 27 Tahun 2021. Rincinya, mengatur pembatasan orang asing masuk ke wilayah Indonesia dalam masa Pemberlakuan Pembatasan Kegiatan Masyarakat atau PPKM Darurat. Permenkumham ini berlaku pada Rabu 21 Juli 2021 dengan 2 hari masa tenggang untuk sosialisasi dan koordinasi. Namun, ada 5 kategori WNA yang masuk daftar pengecualian. Apa saja kategori WNA yang masih bisa masuk wilayah Indonesia? Simak dalam Infografis berikut ini:");
-        documents[1] = new Document("2", "Bulu Tangkis menjadi andalan Indonesia berburu medali di Olimpiade Tokyo 2020. Cabang olahraga atau cabor ini digelar pada 24 Juli hingga 2 Agustus 2021. Tidak tanggung-tanggung, dari 28 atlet Indonesia yang bertarung di Negeri Sakura, 11 di antaranya adalah atlet bulu tangkis. Mereka mencoba mempertahankan tradisi medali emas di Olimpiade. Tercatat Indonesia telah menggondol 7 medali emas sejak cabor bulu tangkis dipertandingkan pada Olimpiade Barcelona 1992. Bermula dari tunggal putri Susy Susanti dan tunggal putra Alan Budikusuma. Laga bulu tangkis Indonesia di Olimpiade Tokyo 2020 disiarkan Emtek Group sebagai official broadcaster. Simak jadwalnya dalam Infografis berikut ini:");
-        documents[2] = new Document("3", "Covid-19 tidak mengenal usia dan status. Siapa pun bisa tertular. Jadi jangan bebal, sebab tidak ada yang kebal dari virus corona. Bahkan tidak ada jaminan orang yang sudah terinfeksi Covid-19, tidak akan terinfeksi lagi. Mereka bisa kembali terinfeksi Covid-19. Kesadaran melindungi diri sangat penting. Apalagi dengan melindungi diri, juga sekaligus melindungi keluarga, orang terdekat, dan orang sekitar. Ini menjadi tanggung jawab bersama. Disiplin protokol kesehatan menjadi cara yang paling efektif melindungi diri. Apa saja? Simak Infografis berikut ini: ** #IngatPesanIbu Pakai Masker, Cuci Tangan Pakai Sabun, Jaga Jarak dan Hindari Kerumunan. Selalu Jaga Kesehatan, Jangan Sampai Tertular dan Jaga Keluarga Kita.");
+        // test read document
+        CSVReader csvReader = new CSVReader("/Users/aguszulvani/privacy/MKOM/SEMESTER-3/STBI/UTS/News.csv");
+        List<String> csvContent = csvReader.read(new int[]{0,2,7}, -1, true);
+        int top = 10;
 
-        String query = "olahraga indonesia";
-        MatrixProcessor im = new MatrixProcessor(documents, query);
-        im.toIncidentMatrix();
-        System.out.println("----");
-        im.toCountMatrix(false);
-        System.out.println("----");
-        im.toCountMatrix(true);
-        System.out.println("----");
+        Document[] documents = csvContent.stream().map(e -> {
+            String[] lines = e.split(",");
+            Document doc = new Document(lines[0], lines[2]);
+            doc.setTitle(lines[1]);
+            return doc;
+        }).toList().toArray(new Document[csvContent.size()]);
 
-//        int agus = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "agus");
-//        int sekali = im.countWordInText("agus zulvani ganteng sekali. agus zulvani adalah", "sekali");
-//        System.out.println(agus);
-//        System.out.println(sekali);
+        String[] queries = new String[]{
+                "pekerja asing indonesia",
+                "pertandingan sepak bola dunia",
+                "olahraga paling digemari masyarakat indonesia",
+                "olimpiade tokyo",
+                "memperingati hari jadi sepak bola",
+                "indonesia menjadi tuan rumah piala dunia",
+                "olimpiade olahraga paling bergengsi",
+                "ketakutan olahrawagan dalam pertandingan",
+                "pertandingan paling seru",
+                "vaksin sebagai politik dalam dunia olahraga"
+        };
 
+        for (String query : queries) {
+            MatrixProcessor im = new MatrixProcessor(documents, query);
+
+            Instant startTime = Instant.now();
+            im.toIncidentMatrix(false);
+            Instant endTime = Instant.now();
+            Duration duration = Duration.between(startTime, endTime);
+            System.out.println("Query: " + query);
+            System.out.println("Searching Time: " + duration.toMillis() + " ms");
+
+            List<Document> result = Arrays.asList(documents);
+            result.sort(Comparator.comparingDouble(Document::getJaccardValue).reversed());
+            result = result.subList(1, top);
+
+            for(Document doc : result) {
+                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getJaccardValue());
+            }
+            System.out.println("----");
+        }
+
+
+
+
+//        im.toCountMatrix(false);
+//        System.out.println("----");
+//        im.toCountMatrix(true);
+//        System.out.println("----");
     }
 
     public static void main(String[] args) {
