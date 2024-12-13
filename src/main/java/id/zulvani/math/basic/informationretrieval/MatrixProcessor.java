@@ -15,9 +15,12 @@ public class MatrixProcessor {
     private final Document[] documents;
     private final String query;
 
+    private final long numberOfDocument;
+
     public MatrixProcessor(Document[] documents, String query) {
         this.documents = documents;
         this.query = query;
+        this.numberOfDocument = documents.length;
     }
 
     public Matrix toIncidentMatrix(boolean verbose){
@@ -81,7 +84,7 @@ public class MatrixProcessor {
         return m;
     }
 
-    public Matrix toCountMatrix(boolean verbose, boolean logCount){
+    public Matrix toCountMatrix(boolean verbose, boolean logCount, boolean documentFrequency){
         Matrix m = new id.zulvani.math.basic.informationretrieval.model.Matrix();
 
         if (query == null || documents == null) {
@@ -97,8 +100,15 @@ public class MatrixProcessor {
         // Create the incidence matrix
         double[][] countMatrix = new double[documents.length][queryTerms.length];
         double[] tfScore = new double[documents.length];
-        double[] cf = new double[queryTerms.length];
+        double[] cf = new double[queryTerms.length]; // collection frequency (document frequency)
         int[] dft = new int[queryTerms.length];
+
+        // calculate document frequency: how many documents that term occur
+        for (int j = 0; j < queryTerms.length; j++) {
+            for(int i = 0; i < documents.length;i++) {
+                cf[j] = cf[j] + countMatrix[i][j];
+            }
+        }
 
         // Fill the incidence matrix
         for (int i = 0; i < documents.length; i++) {
@@ -108,23 +118,22 @@ public class MatrixProcessor {
                 int c = countWordInText(text, term);
                 if (logCount) {
                     countMatrix[i][j] = c > 0 ? 1 + Math.log10(c) : 0;
-                } else {
+                } else if (documentFrequency) {
+                    countMatrix[i][j] = c > 0 ? 1 + Math.log10(numberOfDocument/cf[j]) : 0;
+                }
+                else {
                     countMatrix[i][j] = c;
                 }
                 tfScore[i] = tfScore[i] + countMatrix[i][j];
                 documents[i].setTermFrequency(tfScore[i]);
 
+                // calculate how many document that term occur
                 if (text.contains(term)) {
                     dft[j] = dft[j] + 1;
                 }
             }
         }
 
-        for (int j = 0; j < queryTerms.length; j++) {
-            for(int i = 0; i < documents.length;i++) {
-                cf[j] = cf[j] + countMatrix[i][j];
-            }
-        }
 
         m.setMatrix(countMatrix);
         m.setxLabel(queryTerms);

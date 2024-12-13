@@ -59,10 +59,46 @@ public class Main {
 //            System.out.println("----");
 //        }
 
+//        for (String query : queries) {
+//            MatrixProcessor im = new MatrixProcessor(documents, query);
+//            Instant startTime = Instant.now();
+//            im.toCountMatrix(false, false, false);
+//            Instant endTime = Instant.now();
+//            Duration duration = Duration.between(startTime, endTime);
+//            System.out.println("Query: " + query);
+//            System.out.println("Searching Time: " + duration.toMillis() + " ms");
+//
+//            List<Document> result = Arrays.asList(documents);
+//            result.sort(Comparator.comparingDouble(Document::getTermFrequency).reversed());
+//            result = result.subList(1, top);
+//            for (Document doc : result) {
+//                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getTermFrequency());
+//            }
+//            System.out.println("----");
+//        }
+
+//        for (String query : queries) {
+//            MatrixProcessor im = new MatrixProcessor(documents, query);
+//            Instant startTime = Instant.now();
+//            im.toCountMatrix(false, true, false);
+//            Instant endTime = Instant.now();
+//            Duration duration = Duration.between(startTime, endTime);
+//            System.out.println("Query: " + query);
+//            System.out.println("Searching Time: " + duration.toMillis() + " ms");
+//
+//            List<Document> result = Arrays.asList(documents);
+//            result.sort(Comparator.comparingDouble(Document::getTermFrequency).reversed());
+//            result = result.subList(1, top);
+//            for (Document doc : result) {
+//                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getTermFrequency());
+//            }
+//            System.out.println("----");
+//        }
+
         for (String query : queries) {
             MatrixProcessor im = new MatrixProcessor(documents, query);
             Instant startTime = Instant.now();
-            im.toCountMatrix(false, false);
+            im.toCountMatrix(false, false, true);
             Instant endTime = Instant.now();
             Duration duration = Duration.between(startTime, endTime);
             System.out.println("Query: " + query);
@@ -76,10 +112,6 @@ public class Main {
             }
             System.out.println("----");
         }
-
-
-//        im.toCountMatrix(false,true);
-//        System.out.println("----");
     }
 
     public static void main(String[] args) {

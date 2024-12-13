@@ -8,6 +8,8 @@ public class Document {
     private double jaccardValue;
     private double termFrequency;
 
+    private double idfWeight;
+
     public Document(String docId, String docContent) {
         this.docId = docId;
         this.docContent = docContent;
@@ -51,5 +53,13 @@ public class Document {
 
     public void setTermFrequency(double termFrequency) {
         this.termFrequency = termFrequency;
+    }
+
+    public double getIdfWeight() {
+        return idfWeight;
+    }
+
+    public void setIdfWeight(double idfWeight) {
+        this.idfWeight = idfWeight;
     }
 }
