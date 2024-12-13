@@ -6,14 +6,12 @@ import id.zulvani.math.basic.informationretrieval.model.Document;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
-import java.util.stream.Collectors;
 import java.util.Comparator;
 import java.time.Duration;
 
-public class Main {
+public class InformationRetrievalMain {
 
-    public Main(){
+    public InformationRetrievalMain(){
 
         // test read document
         CSVReader csvReader = new CSVReader("/Users/aguszulvani/privacy/MKOM/SEMESTER-3/STBI/UTS/News.csv");
@@ -115,7 +113,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        new Main();
+        new InformationRetrievalMain();
     }
 
 }
