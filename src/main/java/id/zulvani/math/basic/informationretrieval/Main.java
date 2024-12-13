@@ -6,6 +6,7 @@ import id.zulvani.math.basic.informationretrieval.model.Document;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 import java.time.Duration;
@@ -39,32 +40,45 @@ public class Main {
                 "vaksin sebagai politik dalam dunia olahraga"
         };
 
+//        for (String query : queries) {
+//            MatrixProcessor im = new MatrixProcessor(documents, query);
+//            Instant startTime = Instant.now();
+//            im.toIncidentMatrix(false);
+//            Instant endTime = Instant.now();
+//            Duration duration = Duration.between(startTime, endTime);
+//            System.out.println("Query: " + query);
+//            System.out.println("Searching Time: " + duration.toMillis() + " ms");
+//
+//            List<Document> result = Arrays.asList(documents);
+//            result.sort(Comparator.comparingDouble(Document::getJaccardValue).reversed());
+//            result = result.subList(1, top);
+//
+//            for(Document doc : result) {
+//                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getJaccardValue());
+//            }
+//            System.out.println("----");
+//        }
+
         for (String query : queries) {
             MatrixProcessor im = new MatrixProcessor(documents, query);
-
             Instant startTime = Instant.now();
-            im.toIncidentMatrix(false);
+            im.toCountMatrix(false, false);
             Instant endTime = Instant.now();
             Duration duration = Duration.between(startTime, endTime);
             System.out.println("Query: " + query);
             System.out.println("Searching Time: " + duration.toMillis() + " ms");
 
             List<Document> result = Arrays.asList(documents);
-            result.sort(Comparator.comparingDouble(Document::getJaccardValue).reversed());
+            result.sort(Comparator.comparingDouble(Document::getTermFrequency).reversed());
             result = result.subList(1, top);
-
-            for(Document doc : result) {
-                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getJaccardValue());
+            for (Document doc : result) {
+                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getTermFrequency());
             }
             System.out.println("----");
         }
 
 
-
-
-//        im.toCountMatrix(false);
-//        System.out.println("----");
-//        im.toCountMatrix(true);
+//        im.toCountMatrix(false,true);
 //        System.out.println("----");
     }
 

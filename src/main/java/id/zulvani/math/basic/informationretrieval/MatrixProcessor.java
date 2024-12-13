@@ -81,7 +81,7 @@ public class MatrixProcessor {
         return m;
     }
 
-    public Matrix toCountMatrix(boolean logCount){
+    public Matrix toCountMatrix(boolean verbose, boolean logCount){
         Matrix m = new id.zulvani.math.basic.informationretrieval.model.Matrix();
 
         if (query == null || documents == null) {
@@ -112,6 +112,7 @@ public class MatrixProcessor {
                     countMatrix[i][j] = c;
                 }
                 tfScore[i] = tfScore[i] + countMatrix[i][j];
+                documents[i].setTermFrequency(tfScore[i]);
 
                 if (text.contains(term)) {
                     dft[j] = dft[j] + 1;
@@ -132,40 +133,42 @@ public class MatrixProcessor {
         m.setDocumentFrequency(dft);
         m.setyLabel(Arrays.stream(documents).map(Document::getDocId).toList().toArray(new String[documents.length]));
 
-        for(int j =0; j < m.getxLabel().length; j++) {
-            System.out.print("[" + m.getxLabel()[j] + "] ");
-        }
-        System.out.println();
+        if (verbose) {
+            for (int j = 0; j < m.getxLabel().length; j++) {
+                System.out.print("[" + m.getxLabel()[j] + "] ");
+            }
+            System.out.println();
 
-        for(int i = 0; i < countMatrix.length; i++) {
-            for(int j =0; j < countMatrix[i].length; j++) {
-                if (j == 0) {
-                    System.out.print("[" + m.getyLabel()[i] + "] ");
-                }
-                System.out.print("[" + countMatrix[i][j] + "] ");
+            for (int i = 0; i < countMatrix.length; i++) {
+                for (int j = 0; j < countMatrix[i].length; j++) {
+                    if (j == 0) {
+                        System.out.print("[" + m.getyLabel()[i] + "] ");
+                    }
+                    System.out.print("[" + countMatrix[i][j] + "] ");
 
-                if (j == (countMatrix[i].length - 1)) {
-                    System.out.print("[" + m.getTfScore()[i] + "] ");
+                    if (j == (countMatrix[i].length - 1)) {
+                        System.out.print("[" + m.getTfScore()[i] + "] ");
+                    }
                 }
+                System.out.println();
+            }
+
+            for (int i = 0; i < m.getCollectionFrequency().length; i++) {
+                if (i == 0) {
+                    System.out.print("[CF] ");
+                }
+                System.out.print("[" + m.getCollectionFrequency()[i] + "] ");
+            }
+            System.out.println();
+
+            for (int i = 0; i < m.getDocumentFrequency().length; i++) {
+                if (i == 0) {
+                    System.out.print("[DFt] ");
+                }
+                System.out.print("[" + m.getDocumentFrequency()[i] + "] ");
             }
             System.out.println();
         }
-
-        for(int i = 0; i < m.getCollectionFrequency().length; i++) {
-            if (i == 0) {
-                System.out.print("[CF] ");
-            }
-            System.out.print("[" + m.getCollectionFrequency()[i] + "] ");
-        }
-        System.out.println();
-
-        for(int i = 0; i < m.getDocumentFrequency().length; i++) {
-            if (i == 0) {
-                System.out.print("[DFt] ");
-            }
-            System.out.print("[" + m.getDocumentFrequency()[i] + "] ");
-        }
-        System.out.println();
         return m;
     }
 

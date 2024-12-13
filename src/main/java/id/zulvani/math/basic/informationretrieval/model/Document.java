@@ -6,6 +6,7 @@ public class Document {
     private String title;
 
     private double jaccardValue;
+    private double termFrequency;
 
     public Document(String docId, String docContent) {
         this.docId = docId;
@@ -42,5 +43,13 @@ public class Document {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public double getTermFrequency() {
+        return termFrequency;
+    }
+
+    public void setTermFrequency(double termFrequency) {
+        this.termFrequency = termFrequency;
     }
 }
