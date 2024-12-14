@@ -7,7 +7,9 @@ public class Document {
 
     private double jaccardValue;
     private double termFrequency;
+    private double log10TermFrequency;
 
+    private double dfT;
     private double idfWeight;
 
     public Document(String docId, String docContent) {
@@ -61,5 +63,21 @@ public class Document {
 
     public void setIdfWeight(double idfWeight) {
         this.idfWeight = idfWeight;
+    }
+
+    public double getLog10TermFrequency() {
+        return log10TermFrequency;
+    }
+
+    public void setLog10TermFrequency(double log10TermFrequency) {
+        this.log10TermFrequency = log10TermFrequency;
+    }
+
+    public double getDfT() {
+        return dfT;
+    }
+
+    public void setDfT(double dfT) {
+        this.dfT = dfT;
     }
 }

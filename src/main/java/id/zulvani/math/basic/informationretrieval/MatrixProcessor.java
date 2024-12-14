@@ -99,45 +99,61 @@ public class MatrixProcessor {
 
         // Create the incidence matrix
         double[][] countMatrix = new double[documents.length][queryTerms.length];
-        double[] tfScore = new double[documents.length];
-        double[] cf = new double[queryTerms.length]; // collection frequency (document frequency)
+        double[] termFrequencies = new double[documents.length];
+        double[] cf = new double[queryTerms.length]; // how many documents that term occur
         int[] dft = new int[queryTerms.length];
 
-        // calculate document frequency: how many documents that term occur
-        for (int j = 0; j < queryTerms.length; j++) {
-            for(int i = 0; i < documents.length;i++) {
-                cf[j] = cf[j] + countMatrix[i][j];
+        if (documentFrequency) {
+            // calculate document frequency: how many documents that term occur
+            for (int j = 0; j < queryTerms.length; j++) {
+                String term = queryTerms[j].toLowerCase();
+                for (Document document : documents) {
+                    String text = document.getDocContent().toLowerCase(); // Convert to lowercase for case-insensitive comparison
+                    if (text.contains(term)) {
+                        cf[j] = cf[j] + 1;
+                    }
+                }
+            }
+
+            for (int j = 0; j < queryTerms.length; j++) {
+                cf[j] = Math.log10(numberOfDocument/cf[j]);
             }
         }
 
-        // Fill the incidence matrix
+        // calculate term frequency for each documents
         for (int i = 0; i < documents.length; i++) {
             String text = documents[i].getDocContent().toLowerCase(); // Convert to lowercase for case-insensitive comparison
             for (int j = 0; j < queryTerms.length; j++) {
                 String term = queryTerms[j].toLowerCase();
-                int c = countWordInText(text, term);
-                if (logCount) {
-                    countMatrix[i][j] = c > 0 ? 1 + Math.log10(c) : 0;
-                } else if (documentFrequency) {
-                    countMatrix[i][j] = c > 0 ? 1 + Math.log10(numberOfDocument/cf[j]) : 0;
+                if (documentFrequency) {
+                    double c = countWordInText(text, term, cf[j]);
+                    countMatrix[i][j] = c;
+                    documents[i].setDfT(c + documents[i].getDfT());
                 }
                 else {
+                    double c = countWordInText(text, term, 1);
                     countMatrix[i][j] = c;
-                }
-                tfScore[i] = tfScore[i] + countMatrix[i][j];
-                documents[i].setTermFrequency(tfScore[i]);
-
-                // calculate how many document that term occur
-                if (text.contains(term)) {
-                    dft[j] = dft[j] + 1;
+                    termFrequencies[i] = termFrequencies[i] + countMatrix[i][j];
+                    documents[i].setTermFrequency(termFrequencies[i]); // Term Frequency without Log10
                 }
             }
         }
 
+        for (Document doc : documents){
+            if (logCount) {
+                double log10TermFrequency = doc.getTermFrequency() > 0 ? 1 + Math.log10(doc.getTermFrequency()) : 0;
+                doc.setLog10TermFrequency(log10TermFrequency);
+            }
+
+            if (documentFrequency) {
+                double idft = doc.getDfT() > 0 ? Math.log10(numberOfDocument / doc.getDfT()) : 0;
+                doc.setIdfWeight(idft);
+            }
+        }
 
         m.setMatrix(countMatrix);
         m.setxLabel(queryTerms);
-        m.setTfScore(tfScore);
+        m.setTfScore(termFrequencies);
         m.setCollectionFrequency(cf);
         m.setDocumentFrequency(dft);
         m.setyLabel(Arrays.stream(documents).map(Document::getDocId).toList().toArray(new String[documents.length]));
@@ -181,12 +197,12 @@ public class MatrixProcessor {
         return m;
     }
 
-    public int countWordInText(String text, String word){
-        int wordCount = 0;
+    public double countWordInText(String text, String word, double i){
+        double wordCount = 0;
         text = removeNonAlphaNumeric(text);
         for (String c : text.split(" ")) {
             if (word.equalsIgnoreCase(c)) {
-                wordCount++;
+                wordCount = wordCount + i;
             }
         }
         return wordCount;

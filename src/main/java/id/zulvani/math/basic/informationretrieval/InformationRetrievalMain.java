@@ -91,10 +91,10 @@ public class InformationRetrievalMain {
 //            System.out.println("Searching Time: " + duration.toMillis() + " ms");
 //
 //            List<Document> result = Arrays.asList(documents);
-//            result.sort(Comparator.comparingDouble(Document::getTermFrequency).reversed());
+//            result.sort(Comparator.comparingDouble(Document::getLog10TermFrequency).reversed());
 //            result = result.subList(1, top);
 //            for (Document doc : result) {
-//                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getTermFrequency());
+//                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getLog10TermFrequency());
 //            }
 //            System.out.println("----");
 //        }
@@ -111,10 +111,10 @@ public class InformationRetrievalMain {
             System.out.println("Searching Time: " + duration.toMillis() + " ms");
 
             List<Document> result = Arrays.asList(documents);
-            result.sort(Comparator.comparingDouble(Document::getTermFrequency).reversed());
+            result.sort(Comparator.comparingDouble(Document::getIdfWeight).reversed());
             result = result.subList(1, top);
             for (Document doc : result) {
-                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getTermFrequency());
+                System.out.println(doc.getDocId() + "," + doc.getTitle() + "," + doc.getIdfWeight());
             }
             System.out.println("----");
         }
